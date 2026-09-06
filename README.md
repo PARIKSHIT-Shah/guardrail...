@@ -2,8 +2,7 @@
 
 A 3-stage moderation API (Model Chain Prompting): every message passes through
 **Toxicity & Prompt-Injection Check → Content Policy Validation → Final Output
-Generation**. Built as React (Vite) + serverless Node functions + MongoDB, so
-it deploys to Vercel with zero configuration.
+Generation**. Built as React (Vite) + serverless Node functions + MongoDB, 
 
 ## Stack
 
@@ -33,35 +32,6 @@ it deploys to Vercel with zero configuration.
 └── vite.config.js        # Dev proxy: /api -> localhost:3001
 ```
 
-## Run it locally
-
-```bash
-npm install
-cp .env.example .env      # optional — add MONGODB_URI to persist logs
-npm run dev                # starts Vite (5173) + the API server (3001) together
-```
-
-Open http://localhost:5173. The Vite dev server proxies `/api/*` to the local
-Express server, so you're testing the same code paths Vercel will run.
-
-## Deploy to Vercel
-
-1. Push this project to a GitHub repo.
-2. In Vercel, **Add New Project** → import the repo. Vercel auto-detects Vite
-   for the frontend and picks up everything in `/api` as serverless
-   functions — no build settings to change.
-3. Add environment variables in the Vercel project settings:
-   - `MONGODB_URI` — your MongoDB Atlas connection string (optional but
-     recommended, so flagged/passed interactions are logged).
-   - `OPENAI_API_KEY` — optional. If set, Stage 1 calls OpenAI's real
-     moderation endpoint instead of the built-in keyword/regex fallback.
-4. Deploy. That's it — `vercel.json` handles SPA routing so refreshing any
-   route still loads the app correctly.
-
-### Getting a free MongoDB URI
-Create a free cluster at https://www.mongodb.com/cloud/atlas, add a database
-user, allow access from anywhere (`0.0.0.0/0`) under Network Access, then copy
-the connection string from **Connect → Drivers** into `MONGODB_URI`.
 
 ## How the pipeline works (`api/_lib/rules.js`)
 
